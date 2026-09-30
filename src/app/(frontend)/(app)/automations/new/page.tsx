@@ -1,13 +1,11 @@
-import Link from 'next/link'
+import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { getAuth } from '@/lib/auth'
 import { NewAutomationForm } from '@/components/new-automation-form'
-import { Button } from '@/components/ui/button'
-import { ArrowLeft } from 'lucide-react'
 
 export const metadata: Metadata = { title: 'New Automation' }
 
-export default async function NewAutomationPage() {
+async function AutomationFormWrapper() {
   const { payload, user } = await getAuth()
 
   const productsRes = await payload.find({
@@ -24,17 +22,14 @@ export default async function NewAutomationPage() {
     niche: p.niche,
   }))
 
+  return <NewAutomationForm products={products} />
+}
+
+export default function NewAutomationPage() {
   return (
     <div className="flex flex-col h-full overflow-auto">
-      <header className="h-14 flex items-center justify-between px-6 border-b border-border shrink-0">
-        <div className="flex items-center gap-3">
-          <Button asChild variant="ghost" size="sm" className="text-muted-foreground">
-            <Link href="/automations">
-              <ArrowLeft className="h-4 w-4" />
-            </Link>
-          </Button>
-          <h1 className="font-display text-lg font-semibold text-foreground">New Automation</h1>
-        </div>
+      <header className="h-14 flex items-center px-6 border-b border-border shrink-0">
+        <h1 className="font-display text-lg font-semibold text-foreground">New Automation</h1>
       </header>
       <main className="flex-1 p-6 overflow-auto">
         <div className="max-w-lg bg-card border border-border rounded-md">
@@ -44,7 +39,9 @@ export default async function NewAutomationPage() {
             </p>
           </div>
           <div className="px-5 py-5">
-            <NewAutomationForm products={products} />
+            <Suspense fallback={<div className="h-64 animate-pulse bg-muted rounded-md" />}>
+              <AutomationFormWrapper />
+            </Suspense>
           </div>
         </div>
       </main>
