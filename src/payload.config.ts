@@ -11,6 +11,13 @@ import { coldbrewStorage } from '@coldbrew/storage-coldbrew'
 
 import { agents } from './agents'
 import { AppAdminUsers } from './collections/AppAdminUsers'
+import { Automations } from './collections/Automations'
+import { Competitors } from './collections/Competitors'
+import { ContentItems } from './collections/ContentItems'
+import { Products } from './collections/Products'
+import { ScrapeRuns } from './collections/ScrapeRuns'
+import { Users } from './collections/Users'
+import { runScrapeTask } from './jobs/runScrapeTask'
 import { PAYLOAD_ADMIN_ROUTE } from './lib/payload-routes'
 
 const filename = fileURLToPath(import.meta.url)
@@ -30,13 +37,15 @@ export default buildConfig({
   },
   collections: [
     AppAdminUsers,
-    /* Add your collections here.
-       For apps with end users, add a domain auth collection (conventionally
-       `users`) following the data-plane access posture. Every auth collection
-       receives its OAuth AS and Payload API resource by default. */
+    Users,
+    Products,
+    Automations,
+    ScrapeRuns,
+    Competitors,
+    ContentItems,
   ],
   jobs: {
-    /* Add your tasks and workflows here */
+    tasks: [runScrapeTask],
     ...coldbrewJobsAccessConfig,
   },
   editor: lexicalEditor(),
