@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server'
 
 // Protect all (app)/ routes — checks for presence of a Payload auth cookie.
 // The real auth validation happens server-side when pages call getAuth().
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const token = request.cookies.get('payload-token')
   if (!token) {
     const loginUrl = new URL('/login', request.url)
