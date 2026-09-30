@@ -45,7 +45,7 @@ interface Product {
   niche: string
 }
 
-export function NewAutomationForm({ products, defaultProductId }: { products: Product[]; defaultProductId: string }) {
+export function NewAutomationForm({ products, defaultProductId = '' }: { products: Product[]; defaultProductId?: string }) {
   const [state, action, pending] = useActionState(createAutomationAction, undefined)
 
   return (
