@@ -5,7 +5,11 @@ import { NewAutomationForm } from '@/components/new-automation-form'
 
 export const metadata: Metadata = { title: 'New Automation' }
 
-async function AutomationFormWrapper() {
+interface Props {
+  searchParams: Promise<{ productId?: string }>
+}
+
+async function AutomationFormWrapper({ defaultProductId }: { defaultProductId: string }) {
   const { payload, user } = await getAuth()
 
   const productsRes = await payload.find({
@@ -22,10 +26,11 @@ async function AutomationFormWrapper() {
     niche: p.niche,
   }))
 
-  return <NewAutomationForm products={products} />
+  return <NewAutomationForm products={products} defaultProductId={defaultProductId} />
 }
 
-export default function NewAutomationPage() {
+export default async function NewAutomationPage({ searchParams }: Props) {
+  const { productId = '' } = await searchParams
   return (
     <div className="flex flex-col h-full overflow-auto">
       <header className="h-14 flex items-center px-6 border-b border-border shrink-0">
@@ -40,7 +45,7 @@ export default function NewAutomationPage() {
           </div>
           <div className="px-5 py-5">
             <Suspense fallback={<div className="h-64 animate-pulse bg-muted rounded-md" />}>
-              <AutomationFormWrapper />
+              <AutomationFormWrapper defaultProductId={productId} />
             </Suspense>
           </div>
         </div>

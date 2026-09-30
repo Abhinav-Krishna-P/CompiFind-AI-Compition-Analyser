@@ -3,7 +3,6 @@
 import { useActionState } from 'react'
 import Form from 'next/form'
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
 import { createAutomationAction } from '@/actions/automations.actions'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -46,10 +45,8 @@ interface Product {
   niche: string
 }
 
-export function NewAutomationForm({ products }: { products: Product[] }) {
+export function NewAutomationForm({ products, defaultProductId }: { products: Product[]; defaultProductId: string }) {
   const [state, action, pending] = useActionState(createAutomationAction, undefined)
-  const searchParams = useSearchParams()
-  const defaultProductId = searchParams.get('productId') ?? ''
 
   return (
     <Form action={action} className="flex flex-col gap-5">
