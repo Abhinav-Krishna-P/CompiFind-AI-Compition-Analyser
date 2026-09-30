@@ -79,7 +79,7 @@ function PublicFooter() {
           Rival<span className="text-primary">yze</span>
         </span>
         <p className="font-mono text-xs text-muted-foreground">
-          © {new Date().getFullYear()} Rivalyze. All rights reserved.
+          © 2025 Rivalyze. All rights reserved.
         </p>
         <p className="font-mono text-xs text-muted-foreground">
           Competitor intelligence — automated and precise.

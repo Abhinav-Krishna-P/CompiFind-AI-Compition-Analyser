@@ -1,11 +1,8 @@
-import { redirect } from 'next/navigation'
-import { getAuth } from '@/lib/auth'
 import { AppSidebar } from '@/components/app-sidebar'
 
-export default async function AppLayout({ children }: { children: React.ReactNode }) {
-  const { user } = await getAuth()
-  if (!user || user.collection !== 'users') redirect('/login')
-
+// Route protection is handled by middleware (src/middleware.ts).
+// Actual auth is verified per-page via getAuth() inside Suspense boundaries.
+export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-screen overflow-hidden bg-background">
       <AppSidebar />
