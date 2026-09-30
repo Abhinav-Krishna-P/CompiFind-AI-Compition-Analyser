@@ -14,7 +14,8 @@ interface Props {
 
 export const metadata: Metadata = { title: 'Product' }
 
-async function ProductContent({ id }: { id: string }) {
+async function ProductContent({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   const { payload, user } = await getAuth()
 
   let product
@@ -194,9 +195,7 @@ async function ProductContent({ id }: { id: string }) {
   )
 }
 
-export default async function ProductDetailPage({ params }: Props) {
-  const { id } = await params
-
+export default function ProductDetailPage({ params }: Props) {
   return (
     <div className="flex flex-col h-full overflow-auto">
       <header className="h-14 flex items-center px-6 border-b border-border shrink-0">
@@ -210,7 +209,7 @@ export default async function ProductDetailPage({ params }: Props) {
               <div className="bg-card border border-border rounded-md h-40 animate-pulse" />
             </div>
           }>
-            <ProductContent id={id} />
+            <ProductContent params={params} />
           </Suspense>
         </div>
       </main>
